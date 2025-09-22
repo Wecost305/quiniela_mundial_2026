@@ -565,51 +565,55 @@ function validateMatchInputs(matchRow) {
 
 // --- LÓGICA DE ALMACENAMIENTO ---
 function saveStateToStorage() {
-    // ¡CONDICIÓN CLAVE! Si estamos cargando datos, no guardamos nada para evitar sobrescribir.
+    // Si estamos en medio de la carga inicial, no guardamos nada para evitar sobrescribir.
     if (isLoading) return;
 
-    // Obtenemos el estado actual solo para leer el nombre de usuario.
+    // Obtenemos el estado actual para no perder el nombre de usuario.
     const currentState = JSON.parse(localStorage.getItem(storageKey)) || {};
 
-    // Creamos un objeto NUEVO que contendrá toda la información a guardar.
+    // Creamos el objeto que contendrá toda la información a guardar.
     const newState = {
         userName: currentState.userName, // Mantenemos el nombre de usuario existente.
         groups: {},
         bracket: {}
     };
 
-    // --- Llenamos el objeto newState con los datos de los grupos ---
+    // 1. Guardar marcadores de la fase de grupos
     document.querySelectorAll('.group-card').forEach(card => {
         const groupId = card.dataset.groupId;
-        newState.groups[groupId] = {}; // <-- CORRECCIÓN: Usamos newState
+        newState.groups[groupId] = {};
         card.querySelectorAll('.match-grid').forEach(match => {
             const matchKey = `${match.dataset.team1}-${match.dataset.team2}`;
             const scores = Array.from(match.querySelectorAll('.score-input')).map(i => i.value);
             // Guardamos solo si hay datos para no llenar el storage de vacíos
             if (scores[0] !== '' || scores[1] !== '') {
-                newState.groups[groupId][matchKey] = scores; // <-- CORRECCIÓN: Usamos newState
+                newState.groups[groupId][matchKey] = scores;
             }
         });
     });
 
-    // --- Llenamos el objeto newState con los datos del bracket ---
+    // 2. Guardar marcadores de la fase eliminatoria (bracket)
     document.querySelectorAll('.bracket-container-topdown .match-container').forEach(match => {
         const matchId = match.dataset.matchId;
-        const scores = Array.from(match.querySelectorAll('.score')).map(i => i.value);
-        if (scores.length > 0 && (scores[0] !== '' || scores[1] !== '')) {
-            newState.bracket[matchId] = scores; // <-- CORRECCIÓN: Usamos newState
+        const scoreInputs = match.querySelectorAll('.score');
+        
+        // Solo procedemos si el partido tiene inputs de marcador
+        if (scoreInputs.length === 2) {
+            const scores = [scoreInputs[0].value, scoreInputs[1].value];
+            if (scores[0] !== '' || scores[1] !== '') {
+                newState.bracket[matchId] = scores;
+            }
         }
     });
 
-    // --- ¡CORRECCIÓN FINAL Y MÁS IMPORTANTE! ---
-    // Guardamos el objeto newState, que contiene TODO (nombre y resultados).
+    // 3. Guardar el objeto completo en localStorage usando la clave ÚNICA del usuario.
     localStorage.setItem(storageKey, JSON.stringify(newState));
 }
 
 function loadStateFromStorage() {
     isLoading = true; // --- Activamos la bandera de carga ---
 
-    const savedState = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const savedState = JSON.parse(localStorage.getItem(storageKey));
 
     // Cargar marcadores de grupos
     if (savedState && savedState.groups) {
