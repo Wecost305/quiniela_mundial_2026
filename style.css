@@ -619,3 +619,253 @@ body {
     border-color: #DC3545 !important; /* Rojo de error, !important para asegurar visibilidad */
     background-color: #F8D7DA; /* Fondo rojo claro */
 }
+
+/* ======================================================
+   --- ESTILOS RESPONSIVE PARA MÓVILES Y TABLETS ---
+   ====================================================== */
+
+/* --- Estilos para Tablets y pantallas medianas (hasta 1024px) --- */
+@media (max-width: 1024px) {
+    .groups-grid {
+        /* En tablets, mostramos un máximo de 2 columnas de grupos */
+        grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    }
+
+    .main-title {
+        font-size: 2.8em; /* Reducimos un poco el título principal */
+    }
+
+    .section-title {
+        font-size: 2.4em;
+    }
+}
+
+
+/* --- Estilos para Celulares (hasta 768px) --- */
+@media (max-width: 768px) {
+    body {
+        padding: 0 10px; /* Menos espacio en los bordes en móviles */
+    }
+
+    /* --- Encabezado adaptable --- */
+    .main-header {
+        grid-template-columns: 1fr; /* Apilamos todo en una columna */
+        justify-items: center;
+        gap: 15px;
+        padding: 15px 0;
+    }
+
+    .logo-container { justify-self: center; }
+    .user-info { justify-self: center; order: -1; } /* Movemos el nombre del usuario arriba */
+    .main-title { font-size: 2.5em; }
+
+    /* --- Fase de Grupos en una sola columna --- */
+    .groups-grid {
+        grid-template-columns: 1fr; /* Forzamos una sola columna */
+        gap: 20px;
+    }
+
+    /* --- Rejilla de partido más legible en móviles --- */
+    .match-grid {
+        grid-template-columns: 1fr 45px 15px 45px 1fr; /* Nueva estructura */
+        gap: 5px;
+        padding: 10px 5px;
+    }
+
+    .team-name {
+        font-size: 0.9em; /* Hacemos el nombre un poco más pequeño */
+    }
+
+    /* Ocultamos las abreviaturas (MEX, ARG) para ganar espacio */
+    .team-abbr {
+        display: none;
+    }
+
+    /* --- Tabla de posiciones más compacta --- */
+    .standings-table th, .standings-table td {
+        padding: 8px 3px; /* Menos padding para que quepa todo */
+        font-size: 0.85em;
+    }
+    .standings-table td:first-child {
+        padding-left: 10px;
+    }
+
+    /* --- Botón principal más grande y accesible --- */
+    .knockout-stage-btn {
+        font-size: 1.5em;
+        padding: 15px 30px;
+        width: 100%; /* Ocupa todo el ancho para ser fácil de tocar */
+    }
+
+    /* --- Modal del Bracket ocupa toda la pantalla --- */
+    .modal-content {
+        width: 100%;
+        height: 100%;
+        border-radius: 0;
+        padding: 15px;
+    }
+
+    .modal-close-btn {
+        top: 10px;
+        right: 15px;
+    }
+
+    /* --- Bracket con scroll horizontal --- */
+    .bracket-container-topdown {
+        padding: 40px 15px;
+        /* Permitimos que el usuario deslice el bracket si es muy ancho */
+        justify-content: flex-start; 
+    }
+
+    .team-pill {
+        width: 140px; /* Hacemos las píldoras más pequeñas */
+        height: 34px;
+        padding: 4px 8px;
+    }
+
+    .team-pill .code {
+        font-size: 0.8em;
+    }
+
+    /* --- Panel de estadísticas en una sola columna --- */
+    .global-stats-container {
+        grid-template-columns: 1fr;
+    }
+
+    /* --- Mejoras específicas para el Bracket en Móviles --- */
+.bracket-container-topdown {
+    /* Reducimos el espacio entre las alas y la final para una vista más compacta */
+    gap: 5px; 
+}
+
+.bracket-wing {
+    /* Reducimos el espacio entre rondas */
+    gap: 10px;
+}
+
+.bracket-round {
+    /* Reducimos el espacio vertical entre partidos */
+    gap: 20px;
+}
+
+/* Ajustes de espaciado vertical para cada ronda en móviles */
+.bracket-round.r16 { gap: 30px; }
+.bracket-round.r8 { gap: 100px; }
+.bracket-round.sf { gap: 240px; } /* Aumentamos para alinear con la final */
+
+/* Hacemos las píldoras de equipo aún más compactas */
+.team-pill {
+    width: 135px; /* Un poco más pequeñas */
+    height: 36px;
+    grid-template-columns: 20px auto 35px; /* Ajustamos columnas: bandera, nombre, score */
+    padding: 4px 6px;
+}
+
+.right-wing .team-pill {
+    /* Ajuste para el ala derecha */
+    grid-template-columns: 35px auto 20px;
+}
+
+.team-pill .flag {
+    font-size: 1.2em;
+}
+
+.team-pill .code {
+    font-size: 0.85em;
+}
+
+/* Ajustamos las líneas conectoras para la vista móvil */
+.left-wing .match-container::after,
+.right-wing .match-container::after {
+    width: 10px; /* Líneas horizontales más cortas */
+}
+
+.left-wing .bracket-round > .match-container::before {
+    left: calc(100% + 10px);
+}
+
+.right-wing .bracket-round > .match-container::before {
+    right: calc(100% + 10px);
+}
+
+/* Títulos de ronda más pequeños */
+.bracket-round::before {
+    font-size: 1.3em;
+    top: -30px;
+}
+
+/* Títulos de la final más pequeños */
+.final-title {
+    font-size: 1.4em;
+}
+
+.champion-pill {
+    width: 180px;
+    height: 40px;
+}
+.champion-pill .code {
+    font-size: 1.1em;
+}
+}
+
+/* ======================================================
+   --- ESTILOS PARA EL INDICADOR DE SCROLL DEL BRACKET ---
+   ====================================================== */
+
+.scroll-indicator {
+    display: none; /* Oculto por defecto en escritorio */
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    z-index: 100;
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+
+/* Mostrar el indicador solo en pantallas de móvil donde el scroll es necesario */
+@media (max-width: 768px) {
+    .scroll-indicator {
+        display: block; /* Lo hacemos visible en móviles */
+    }
+}
+
+/* ======================================================
+   --- ESTILOS PARA LA IMAGEN DE LA COPA DEL MUNDO ---
+   ====================================================== */
+
+.trophy-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px; 
+    
+    /* === ¡AQUÍ ESTÁ EL CAMBIO! Aumentamos el tamaño === */
+    width: 150px;  /* Antes era 100px */
+    height: 150px; /* Antes era 100px */
+}
+
+.trophy-image {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain; 
+    filter: drop-shadow(0 0 12px rgba(255, 193, 7, 0.8)); /* Aumenté un poco el brillo */
+    opacity: 0.9;
+}
+
+/* Ajustamos también el tamaño para móviles para que sea coherente */
+@media (max-width: 768px) {
+    .trophy-container {
+        /* También lo hacemos más grande en móviles */
+        width: 110px;  /* Antes era 70px */
+        height: 110px; /* Antes era 70px */
+        margin-bottom: 15px;
+    }
+}

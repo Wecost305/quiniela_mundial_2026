@@ -148,6 +148,15 @@ function generateBracketHTML() {
         </div>
 
         <div class="bracket-center-final">
+                <!-- ============================================ -->
+        <!-- === ¡AQUÍ VA EL NUEVO ÍCONO DEL TROFEO! === -->
+        <!-- ============================================ -->
+        <div class="trophy-container">
+            <img src="images/copa-mundial.png" alt="Copa del Mundo" class="trophy-image">
+        </div>
+        <!-- ============================================ -->
+        <!-- ===          FIN DEL ÍCONO               === -->
+        <!-- ============================================ -->
             <div class="final-match-wrapper">
                 <h3 class="final-title">FINAL</h3>
                 <div class="match-container" data-match-id="1-1">
@@ -201,7 +210,40 @@ function generateBracketHTML() {
             </div>
         </div>
     `;
+
+    addScrollIndicatorToBracket();
 }
+
+
+function addScrollIndicatorToBracket() {
+    const bracketContainer = document.getElementById('bracket-container');
+    if (!bracketContainer) return;
+
+    // Comprobar si ya existe un indicador para no duplicarlo
+    if (bracketContainer.querySelector('.scroll-indicator')) {
+        return;
+    }
+
+    // Crear el elemento del indicador
+    const indicator = document.createElement('div');
+    indicator.className = 'scroll-indicator';
+    indicator.innerHTML = '‹‹ Desliza para ver todas las rondas ››';
+    
+    // Añadirlo al contenedor del bracket
+    bracketContainer.appendChild(indicator);
+
+    // Ocultar el indicador una vez que el usuario empieza a deslizar
+    bracketContainer.addEventListener('scroll', () => {
+        indicator.style.opacity = '0';
+        // Opcional: eliminarlo después de la transición para limpiar el DOM
+        setTimeout(() => {
+            if (indicator.parentNode) {
+                indicator.parentNode.removeChild(indicator);
+            }
+        }, 500);
+    }, { once: true }); // { once: true } hace que el evento se dispare solo una vez
+}
+
 
 // --- LÓGICA DE EVENTOS ---
 function initializeEventListeners() {
