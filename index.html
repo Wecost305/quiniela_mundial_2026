@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiniela Mundial 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Teko:wght@700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+ <!-- ================================================== -->
+    <!-- === NUEVO MODAL PARA REGISTRO DE NOMBRE === -->
+    <!-- ================================================== -->
+    <div id="name-modal" class="modal-overlay" style="display: none; z-index: 2000;">
+        <div class="modal-content" style="max-width: 400px; height: auto; text-align: center;">
+            <h2 class="section-title">¡Bienvenido!</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Por favor, ingresa tu nombre para personalizar tu quiniela.</p>
+            <form id="name-form">
+                <input type="text" id="user-name-input" placeholder="Escribe tu nombre aquí" required style="width: 80%; padding: 12px; font-size: 1.1em; border-radius: 8px; border: 1px solid var(--border-color);">
+                <button type="submit" class="knockout-stage-btn" style="font-size: 1.5em; margin-top: 20px;">Guardar y Continuar</button>
+            </form>
+        </div>
+    </div>
+
+    <header class="main-header">
+        <div class="logo-container">
+            <button class="logo-btn">LOGO EMPRESA</button>
+        </div>
+        <h1 class="main-title">QUINIELA MUNDIAL 2026</h1>
+        <div class="user-info">
+            <span id="user-name-display">Quiniela de: --</span>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h2 class="section-title">FASE DE GRUPOS</h2>
+        <div class="groups-grid" id="groups-container">
+            <!-- Las tarjetas de grupo se generarán aquí con JavaScript -->
+        </div>
+
+        <div class="third-place-table-container">
+            <h2 class="section-title">MEJORES TERCEROS</h2>
+            <table class="third-place-table">
+                <thead>
+                    <tr><th>Pos</th><th>Eq</th><th>Pts</th><th>PJ</th><th>GF</th><th>GC</th><th>Dif</th></tr>
+                </thead>
+                <tbody id="third-place-body">
+                    <!-- Las filas de los terceros se generarán aquí -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="knockout-stage-button-container">
+            <button class="knockout-stage-btn" onclick="document.getElementById('bracket-modal' ).style.display='flex'">
+                VER FASE ELIMINATORIA
+            </button>
+        </div>
+    </main>
+
+    <!-- Modal del Bracket -->
+    <div id="bracket-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-btn" onclick="document.getElementById('bracket-modal').style.display='none'">&times;</button>
+            <h2 class="section-title">FASE ELIMINATORIA</h2>
+            <div class="bracket-container-topdown" id="bracket-container">
+                <!-- El bracket completo se generará aquí con JavaScript -->
+            </div>
+
+                        <!-- ================================================== -->
+            <!-- === NUEVA SECCIÓN DE ESTADÍSTICAS GLOBALES === -->
+            <!-- ================================================== -->
+            <div id="global-stats-container" class="global-stats-container">
+                <div class="stats-card">
+                    <h4 class="stats-title">🏆 Máximos Goleadores (GF)</h4>
+                    <table class="stats-table">
+                        <tbody id="stats-top-scorers">
+                            <!-- Filas generadas por JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="stats-card">
+                    <h4 class="stats-title">🛡️ Mejores Defensas (GC)</h4>
+                    <table class="stats-table">
+                        <tbody id="stats-best-defense">
+                            <!-- Filas generadas por JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="stats-card">
+                    <h4 class="stats-title">🔥 Partidos con más Goles</h4>
+                    <table class="stats-table">
+                        <tbody id="stats-top-matches">
+                            <!-- Filas generadas por JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+        </div>
+    </div>
+
+    <!-- SCRIPTS (AL FINAL Y EN EL ORDEN CORRECTO) -->
+    <script src="groups-data.js"></script>
+    <script src="main.js"></script>
+
+</body>
+</html>
