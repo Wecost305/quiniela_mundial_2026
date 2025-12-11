@@ -1,5 +1,4 @@
-js
-Copiar código
+
 // Archivo: groups-data.js// Grupos oficiales Mundial 2026 (sorteo 5 de diciembre 2025)// Puedes modificar nombres o códigos si cambian los clasificados de repescas.const groupsData = [
     { id: 'A',
       teams: ['México', 'Sudáfrica', 'Corea del Sur', 'Ganador repesca UEFA D'],
