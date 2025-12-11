@@ -1067,4 +1067,53 @@ body {
     100% { transform: translateY(0); }
 }
 
+/* ======================================================
+   TEMA CLARO / OSCURO
+   ====================================================== *//* Color de texto por defecto para el tema oscuro (actual) */body {
+    color: #f8f9fa;
+}
+
+/* Tema claro activado en <body class="theme-light"> */body.theme-light {
+    background-image: none;
+    background-color: #f4f6fb;
+    color: #212529;
+}
+
+/* Tarjetas y partidos en tema claro */body.theme-light .card,
+body.theme-light .stats-card,
+body.theme-light .match-grid,
+body.theme-light .match-container {
+    background-color: #ffffff;
+    border-color: #dee2e6;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+/* Título en tema claro (sin degradado dorado) */body.theme-light .main-title {
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    color: #102542;
+}
+
+/* Navbar en tema claro (si usas .navbar-dark) */body.theme-light .navbar,
+body.theme-light .navbar.navbar-dark {
+    background-color: #0d6efd;
+}
+
+/* Inputs en tema claro */body.theme-light input[type="number"],
+body.theme-light .form-control {
+    background-color: #ffffff;
+    color: #212529;
+    border-color: #ced4da;
+}
+
+/* Línea de meta (fecha + sede) */.match-meta {
+    font-size: 0.75rem;
+    opacity: 0.9;
+}
+
+body.theme-light .match-meta {
+    color: #6c757d;
+}
+
 
