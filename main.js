@@ -263,6 +263,41 @@ function initializeEventListeners() {
 
         updateAllCalculations();
     }
+        if (themeToggleBtn) {
+// Leer tema guardadoconst savedTheme = localStorage.getItem('wc26-theme');
+
+        if (savedTheme === 'light') {
+            document.body.classList.add('theme-light');
+        }
+
+        updateThemeToggleButton(themeToggleBtn);
+
+        themeToggleBtn.addEventListener('click', () => {
+            document.body.classList.toggle('theme-light');
+
+            const isLight = document.body.classList.contains('theme-light');
+            localStorage.setItem('wc26-theme', isLight ? 'light' : 'dark');
+
+            updateThemeToggleButton(themeToggleBtn);
+        });
+    }
+
+// ...resto de listeners (groups-container, bracket, etc.)...
+}
+
+/**
+ * Actualiza el texto y estilo del botón según el tema actual
+ */function updateThemeToggleButton(btn) {
+    const isLight = document.body.classList.contains('theme-light');
+
+    btn.textContent = isLight ? '☀️ Modo claro' : '🌙 Modo oscuro';
+
+// Cambiar borde del botón según el tema
+    btn.classList.toggle('btn-outline-light', !isLight);
+    btn.classList.toggle('btn-outline-dark', isLight);
+}
+
+
 });
     document.getElementById('groups-container').addEventListener('click', (e) => {
         if (e.target.classList.contains('reset-group-btn')) {
