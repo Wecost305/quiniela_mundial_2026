@@ -249,11 +249,21 @@ function addScrollIndicatorToBracket() {
 function initializeEventListeners() {
     // ... (listener de la fase de grupos, sin cambios) ...
     document.getElementById('groups-container').addEventListener('input', (e) => {
-        if (e.target.classList.contains('score-input')) {
-            validateMatchInputs(e.target.closest('.match-grid'));
-            updateAllCalculations();
+    if (e.target.classList.contains('score-input')) {
+        const matchRow = e.target.closest('.match-grid');
+
+        if (matchRow) {
+// Reiniciamos la animación para que se vea cada vez que cambias el marcador
+            matchRow.classList.remove('row-updated');
+            void matchRow.offsetWidth;// fuerza reflow
+            matchRow.classList.add('row-updated');
+
+            validateMatchInputs(matchRow);
         }
-    });
+
+        updateAllCalculations();
+    }
+});
     document.getElementById('groups-container').addEventListener('click', (e) => {
         if (e.target.classList.contains('reset-group-btn')) {
             const card = e.target.closest('.group-card');
@@ -267,11 +277,18 @@ function initializeEventListeners() {
 
     // --- ¡NUEVO Y SIMPLIFICADO LISTENER PARA EL BRACKET! ---
     document.getElementById('bracket-container').addEventListener('input', (e) => {
-        if (e.target.classList.contains('score')) {
-            // Cuando se cambia un marcador, llamamos a la función que valida y avanza
-            handleBracketScoreChange(e.target.closest('.match-container'));
+    if (e.target.classList.contains('score')) {
+        const matchBox = e.target.closest('.match-container');
+
+        if (matchBox) {
+            matchBox.classList.remove('match-updated');
+            void matchBox.offsetWidth;// reinicia la animación
+            matchBox.classList.add('match-updated');
+
+// Lógica originalhandleBracketScoreChange(matchBox);
         }
-    });
+    }
+});
     // ¡NUEVO LISTENER para el formulario de nombre!
     document.getElementById('name-form').addEventListener('submit', (e) => {
         e.preventDefault(); // Evita que la página se recargue
@@ -339,9 +356,13 @@ function advanceWinner(matchContainer) {
     }
     
     homePill.classList.toggle('loser', winnerCode === awayCode);
-    awayPill.classList.toggle('loser', winnerCode === homeCode);
+awayPill.classList.toggle('loser', winnerCode === homeCode);
 
-    const destination = BRACKET_MAP[matchContainer.dataset.matchId];
+// NUEVO: resaltar visualmente al ganador
+homePill.classList.toggle('winner', winnerCode === homeCode);
+awayPill.classList.toggle('winner', winnerCode === awayCode);
+
+const destination = BRACKET_MAP[matchContainer.dataset.matchId];
     if (destination?.winnerTo) {
         updateNextMatch(destination.winnerTo.match, destination.winnerTo.pos, winnerCode);
     }
@@ -421,8 +442,11 @@ function advanceWinner(matchContainer) {
         loserCode = awayCode;
     }
     
-    homePill.classList.toggle('loser', winnerCode === awayCode);
-    awayPill.classList.toggle('loser', winnerCode === homeCode);
+homePill.classList.toggle('loser', winnerCode === awayCode);
+awayPill.classList.toggle('loser', winnerCode === homeCode);
+
+homePill.classList.toggle('winner', winnerCode === homeCode);
+awayPill.classList.toggle('winner', winnerCode === awayCode);
 
     const destination = BRACKET_MAP[matchId];
     if (destination?.winnerTo) {
@@ -439,11 +463,11 @@ function updateNextMatch(nextMatchId, position, teamCode) {
 
     // --- Lógica para el CAMPEÓN (se muestra completo) ---
     if (nextMatchId === 'champion') {
-        nextMatchEl.classList.remove('placeholder');
-        // Mostramos bandera y nombre completo
-        nextMatchEl.innerHTML = `<span class="flag">${TEAMS_DATA[teamCode].flag}</span><span class="code">${TEAMS_DATA[teamCode].name}</span>`;
-        return;
-    }
+    nextMatchEl.classList.remove('placeholder');
+    nextMatchEl.classList.add('winner');// reutilizamos la animación dorada
+    nextMatchEl.innerHTML = `<span class="flag">${TEAMS_DATA[teamCode].flag}</span><span class="code">${TEAMS_DATA[teamCode].name}</span>`;
+    return;
+}
     
     const targetPill = nextMatchEl.querySelector(`.team-pill[data-team-pos="${position}"]`);
     if (targetPill) {
