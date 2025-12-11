@@ -253,7 +253,7 @@ function initializeEventListeners() {
         const matchRow = e.target.closest('.match-grid');
 
         if (matchRow) {
-// Reiniciamos la animación para que se vea cada vez que cambias el marcador
+// Reinicia la animación para que se vea en cada cambio
             matchRow.classList.remove('row-updated');
             void matchRow.offsetWidth;// fuerza reflow
             matchRow.classList.add('row-updated');
