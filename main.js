@@ -62,8 +62,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeEventListeners();
 
     // Cargamos el estado del usuario
-    loadStateFromStorage(); 
-    
+    loadStateFromStorage();
+
     // Verificamos si el usuario ya tiene un nombre guardado
     const savedState = JSON.parse(localStorage.getItem(storageKey));
     if (savedState && savedState.userName) {
@@ -84,19 +84,25 @@ function generateGroupsHTML() {
                 <button class="reset-group-btn" title="Limpiar marcadores del grupo">&#x21bb;</button>
             </div>
             <div class="group-matches">
-                ${[[0,1],[2,3],[0,2],[1,3],[0,3],[1,2]].map(([i,j]) => {
-                    const team1 = group.codes[i], team2 = group.codes[j];
-                    return `
+                ${[[0, 1], [2, 3], [0, 2], [1, 3], [0, 3], [1, 2]].map(([i, j]) => {
+        const team1 = group.codes[i], team2 = group.codes[j];
+        return `
                     <div class="match-grid" data-team1="${team1}" data-team2="${team2}">
-                        <span class="team-abbr">${team1}</span>
-                        <span class="team-name local">${TEAMS_DATA[team1].name}</span>
-                        <input type="number" min="0" class="score-input">
-                        <span class="match-separator">-</span>
-                        <input type="number" min="0" class="score-input">
-                        <span class="team-name visitor">${TEAMS_DATA[team2].name}</span>
-                        <span class="team-abbr">${team2}</span>
+                        <span class="team-name local">
+  ${TEAMS_DATA[team1].name}
+  <span class="team-flag">${TEAMS_DATA[team1].flag}</span>
+</span>
+
+<input type="number" min="0" class="score-input">
+<span class="match-separator">-</span>
+<input type="number" min="0" class="score-input">
+
+<span class="team-name visitor">
+  <span class="team-flag">${TEAMS_DATA[team2].flag}</span>
+  ${TEAMS_DATA[team2].name}
+</span>
                     </div>`;
-                }).join('')}
+    }).join('')}
             </div>
             <table class="standings-table">
                 <thead><tr><th>Eq</th><th>Pts</th><th>PJ</th><th>G</th><th>E</th><th>P</th><th>GF</th><th>GC</th></tr></thead>
@@ -228,7 +234,7 @@ function addScrollIndicatorToBracket() {
     const indicator = document.createElement('div');
     indicator.className = 'scroll-indicator';
     indicator.innerHTML = '‹‹ Desliza para ver todas las rondas ››';
-    
+
     // Añadirlo al contenedor del bracket
     bracketContainer.appendChild(indicator);
 
@@ -280,7 +286,7 @@ function initializeEventListeners() {
 
         if (userName) {
             document.getElementById('user-name-display').textContent = `Quiniela de: ${userName}`;
-            
+
             // Guardamos el nombre junto con el resto de los datos
             const currentState = JSON.parse(localStorage.getItem(storageKey)) || {};
             currentState.userName = userName;
@@ -293,7 +299,7 @@ function initializeEventListeners() {
 
 function handleBracketScoreChange(matchContainer) {
     const [homeScoreInput, awayScoreInput] = matchContainer.querySelectorAll('.score');
-    
+
     // Si ambos campos tienen un valor, procedemos a validar
     if (homeScoreInput.value !== '' && awayScoreInput.value !== '') {
         const homeScore = parseInt(homeScoreInput.value, 10);
@@ -302,13 +308,13 @@ function handleBracketScoreChange(matchContainer) {
         // Limpiamos cualquier resaltado de error previo
         homeScoreInput.classList.remove('tie-score');
         awayScoreInput.classList.remove('tie-score');
-        
+
         if (homeScore === awayScore) {
             // ¡EMPATE! Marcamos los campos como inválidos y no hacemos nada más.
             homeScoreInput.classList.add('tie-score');
             awayScoreInput.classList.add('tie-score');
             // Detenemos el avance del ganador.
-            return; 
+            return;
         } else {
             // El resultado es válido (no es empate), avanzamos al ganador.
             advanceWinner(matchContainer);
@@ -337,7 +343,7 @@ function advanceWinner(matchContainer) {
         winnerCode = awayCode;
         loserCode = homeCode;
     }
-    
+
     homePill.classList.toggle('loser', winnerCode === awayCode);
     awayPill.classList.toggle('loser', winnerCode === homeCode);
 
@@ -365,7 +371,7 @@ function updateAllCalculations() {
         clearBracket();
     }
     // ¡NUEVA LLAMADA!
-    updateGlobalStats(); 
+    updateGlobalStats();
 
     saveStateToStorage();
 }
@@ -420,7 +426,7 @@ function advanceWinner(matchContainer) {
         winnerCode = homeCode;
         loserCode = awayCode;
     }
-    
+
     homePill.classList.toggle('loser', winnerCode === awayCode);
     awayPill.classList.toggle('loser', winnerCode === homeCode);
 
@@ -444,7 +450,7 @@ function updateNextMatch(nextMatchId, position, teamCode) {
         nextMatchEl.innerHTML = `<span class="flag">${TEAMS_DATA[teamCode].flag}</span><span class="code">${TEAMS_DATA[teamCode].name}</span>`;
         return;
     }
-    
+
     const targetPill = nextMatchEl.querySelector(`.team-pill[data-team-pos="${position}"]`);
     if (targetPill) {
         targetPill.classList.remove('placeholder');
@@ -596,7 +602,7 @@ function saveStateToStorage() {
     document.querySelectorAll('.bracket-container-topdown .match-container').forEach(match => {
         const matchId = match.dataset.matchId;
         const scoreInputs = match.querySelectorAll('.score');
-        
+
         // Solo procedemos si el partido tiene inputs de marcador
         if (scoreInputs.length === 2) {
             const scores = [scoreInputs[0].value, scoreInputs[1].value];
@@ -646,7 +652,7 @@ function loadStateFromStorage() {
                     if (matchEl) {
                         const scores = savedState.bracket[matchId];
                         const inputs = matchEl.querySelectorAll('.score');
-                        
+
                         // Asegurarse de que los inputs existan antes de asignarles valor
                         if (inputs.length === 2 && scores && scores.length === 2) {
                             inputs[0].value = scores[0];
