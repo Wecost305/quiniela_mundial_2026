@@ -15,23 +15,83 @@ function getUserIdFromUrl() {
 }
 
 const BRACKET_MAP = {
-    '16-1': { winnerTo: { match: '8-1', pos: 'home' } }, '16-2': { winnerTo: { match: '8-1', pos: 'away' } },
-    '16-3': { winnerTo: { match: '8-2', pos: 'home' } }, '16-4': { winnerTo: { match: '8-2', pos: 'away' } },
-    '16-5': { winnerTo: { match: '8-3', pos: 'home' } }, '16-6': { winnerTo: { match: '8-3', pos: 'away' } },
-    '16-7': { winnerTo: { match: '8-4', pos: 'home' } }, '16-8': { winnerTo: { match: '8-4', pos: 'away' } },
-    '16-9': { winnerTo: { match: '8-5', pos: 'home' } }, '16-10': { winnerTo: { match: '8-5', pos: 'away' } },
-    '16-11': { winnerTo: { match: '8-6', pos: 'home' } }, '16-12': { winnerTo: { match: '8-6', pos: 'away' } },
-    '16-13': { winnerTo: { match: '8-7', pos: 'home' } }, '16-14': { winnerTo: { match: '8-7', pos: 'away' } },
-    '16-15': { winnerTo: { match: '8-8', pos: 'home' } }, '16-16': { winnerTo: { match: '8-8', pos: 'away' } },
-    '8-1': { winnerTo: { match: '4-1', pos: 'home' } }, '8-2': { winnerTo: { match: '4-1', pos: 'away' } },
-    '8-3': { winnerTo: { match: '4-2', pos: 'home' } }, '8-4': { winnerTo: { match: '4-2', pos: 'away' } },
-    '8-5': { winnerTo: { match: '4-3', pos: 'home' } }, '8-6': { winnerTo: { match: '4-3', pos: 'away' } },
-    '8-7': { winnerTo: { match: '4-4', pos: 'home' } }, '8-8': { winnerTo: { match: '4-4', pos: 'away' } },
-    '4-1': { winnerTo: { match: '2-1', pos: 'home' } }, '4-2': { winnerTo: { match: '2-1', pos: 'away' } },
-    '4-3': { winnerTo: { match: '2-2', pos: 'home' } }, '4-4': { winnerTo: { match: '2-2', pos: 'away' } },
+    // =====================================
+    // FIFA World Cup 26™ (48 equipos)
+    // Round of 32 (M73-M88)  -> usamos ids 16-1..16-16
+    // Round of 16 (M89-M96)  -> usamos ids 8-1..8-8
+    // QF (M97-M100)          -> usamos ids 4-1..4-4
+    // SF (M101-M102)         -> usamos ids 2-1..2-2
+    // 3rd place (M103)       -> id 3-1
+    // Final (M104)           -> id 1-1
+    // =====================================
+
+    // --- Round of 32 -> Round of 16 (según Art. 12.7 del reglamento)
+    // M89: W74 vs W77  => (16-2) vs (16-5)
+    '16-2':  { winnerTo: { match: '8-1', pos: 'home' } },
+    '16-5':  { winnerTo: { match: '8-1', pos: 'away' } },
+
+    // M90: W73 vs W75  => (16-1) vs (16-3)
+    '16-1':  { winnerTo: { match: '8-2', pos: 'home' } },
+    '16-3':  { winnerTo: { match: '8-2', pos: 'away' } },
+
+    // M91: W76 vs W78  => (16-4) vs (16-6)
+    '16-4':  { winnerTo: { match: '8-3', pos: 'home' } },
+    '16-6':  { winnerTo: { match: '8-3', pos: 'away' } },
+
+    // M92: W79 vs W80  => (16-7) vs (16-8)
+    '16-7':  { winnerTo: { match: '8-4', pos: 'home' } },
+    '16-8':  { winnerTo: { match: '8-4', pos: 'away' } },
+
+    // M93: W83 vs W84  => (16-11) vs (16-12)
+    '16-11': { winnerTo: { match: '8-5', pos: 'home' } },
+    '16-12': { winnerTo: { match: '8-5', pos: 'away' } },
+
+    // M94: W81 vs W82  => (16-9) vs (16-10)
+    '16-9':  { winnerTo: { match: '8-6', pos: 'home' } },
+    '16-10': { winnerTo: { match: '8-6', pos: 'away' } },
+
+    // M95: W86 vs W88  => (16-14) vs (16-16)
+    '16-14': { winnerTo: { match: '8-7', pos: 'home' } },
+    '16-16': { winnerTo: { match: '8-7', pos: 'away' } },
+
+    // M96: W85 vs W87  => (16-13) vs (16-15)
+    '16-13': { winnerTo: { match: '8-8', pos: 'home' } },
+    '16-15': { winnerTo: { match: '8-8', pos: 'away' } },
+
+    // --- Round of 16 -> Quarter-finals (según Art. 12.8)
+    // M97: W89 vs W90
+    '8-1': { winnerTo: { match: '4-1', pos: 'home' } },
+    '8-2': { winnerTo: { match: '4-1', pos: 'away' } },
+
+    // M99: W91 vs W92
+    '8-3': { winnerTo: { match: '4-2', pos: 'home' } },
+    '8-4': { winnerTo: { match: '4-2', pos: 'away' } },
+
+    // M98: W93 vs W94
+    '8-5': { winnerTo: { match: '4-3', pos: 'home' } },
+    '8-6': { winnerTo: { match: '4-3', pos: 'away' } },
+
+    // M100: W95 vs W96
+    '8-7': { winnerTo: { match: '4-4', pos: 'home' } },
+    '8-8': { winnerTo: { match: '4-4', pos: 'away' } },
+
+    // --- Quarter-finals -> Semi-finals (según Art. 12.9)
+    // SF1 (M101): W97 vs W98
+    '4-1': { winnerTo: { match: '2-1', pos: 'home' } },
+    '4-3': { winnerTo: { match: '2-1', pos: 'away' } },
+
+    // SF2 (M102): W99 vs W100
+    '4-2': { winnerTo: { match: '2-2', pos: 'home' } },
+    '4-4': { winnerTo: { match: '2-2', pos: 'away' } },
+
+    // --- Semi-finals -> Final + 3rd place (según Art. 12.10)
     '2-1': { winnerTo: { match: '1-1', pos: 'home' }, loserTo: { match: '3-1', pos: 'home' } },
     '2-2': { winnerTo: { match: '1-1', pos: 'away' }, loserTo: { match: '3-1', pos: 'away' } },
+
+    // --- Final -> Champion
     '1-1': { winnerTo: { match: 'champion', pos: null } },
+
+    // --- 3rd place doesn't advance
     '3-1': {}
 };
 
@@ -358,19 +418,23 @@ function advanceWinner(matchContainer) {
 
 // --- LÓGICA DE CÁLCULO Y ACTUALIZACIÓN ---
 function updateAllCalculations() {
-    let allGroupsFinished = true;
+    // Recalcular standings de cada grupo
+    const finishedGroups = new Set();
     groupsData.forEach(group => {
         const isFinished = updateGroupStandings(document.getElementById(`group-${group.id}`));
-        if (!isFinished) allGroupsFinished = false;
+        if (isFinished) finishedGroups.add(group.id);
     });
-    if (allGroupsFinished) {
-        updateThirdPlaceTable();
-    } else {
-        const thirdPlaceBody = document.getElementById('third-place-body');
-        if (thirdPlaceBody) thirdPlaceBody.innerHTML = '';
-        clearBracket();
-    }
-    // ¡NUEVA LLAMADA!
+
+    // Calcular clasificados (soporta avance parcial)
+    const qualified = getQualifiedTeams({ finishedGroups });
+
+    // Actualizar tabla de terceros SIEMPRE (muestra provisional si faltan grupos)
+    updateThirdPlaceTable(qualified);
+
+    // Poblar bracket con lo que ya se pueda (y placeholders donde falte)
+    populateBracketFIFA(qualified);
+
+    // Estadísticas globales
     updateGlobalStats();
 
     saveStateToStorage();
@@ -393,51 +457,36 @@ function updateGroupStandings(groupCard) {
     return isFinished;
 }
 
-function updateThirdPlaceTable() {
-    const qualified = getQualifiedTeams();
+function updateThirdPlaceTable(qualified) {
     const tableBody = document.getElementById('third-place-body');
     if (!tableBody) return;
+
     tableBody.innerHTML = '';
+
+    // Nota: el ranking de terceros solo es definitivo cuando terminaron los 12 grupos.
     qualified.thirdPlaceData.forEach((team, index) => {
         const diff = team.GF - team.GC;
         const row = document.createElement('tr');
+
+        // Marcamos en verde a los 8 mejores terceros (provisional si aún faltan grupos)
         row.className = index < 8 ? 'qualified' : 'not-qualified';
-        row.innerHTML = `<td>${index + 1}</td><td>${TEAMS_DATA[team.code].flag} ${team.code}</td><td>${team.Pts}</td><td>${team.PJ}</td><td>${team.GF}</td><td>${team.GC}</td><td>${diff > 0 ? '+' : ''}${diff}</td>`;
+
+        row.innerHTML = `
+            <td>${index + 1}</td>
+            <td>${TEAMS_DATA[team.code]?.flag ?? '🏳️'} ${TEAMS_DATA[team.code]?.name ?? team.code}</td>
+            <td>${team.Pts}</td>
+            <td>${team.PJ}</td>
+            <td>${team.GF}</td>
+            <td>${team.GC}</td>
+            <td>${diff > 0 ? '+' : ''}${diff}</td>
+        `;
         tableBody.appendChild(row);
     });
-    populateBracket(qualified);
 }
 
-function advanceWinner(matchContainer) {
-    const matchId = matchContainer.dataset.matchId;
-    const [homePill, awayPill] = matchContainer.querySelectorAll('.team-pill');
-    const homeCode = homePill.dataset.teamCode;
-    const awayCode = awayPill.dataset.teamCode;
-    const [homeScore, awayScore] = Array.from(matchContainer.querySelectorAll('.score')).map(el => parseInt(el.value, 10));
 
-    let winnerCode, loserCode;
-    if (homeScore > awayScore) {
-        winnerCode = homeCode;
-        loserCode = awayCode;
-    } else if (awayScore > homeScore) {
-        winnerCode = awayCode;
-        loserCode = homeCode;
-    } else { // Empate, se decide por penales (gana el de arriba por defecto)
-        winnerCode = homeCode;
-        loserCode = awayCode;
-    }
+// (advanceWinner duplicado eliminado: se usa la versión validada de arriba)
 
-    homePill.classList.toggle('loser', winnerCode === awayCode);
-    awayPill.classList.toggle('loser', winnerCode === homeCode);
-
-    const destination = BRACKET_MAP[matchId];
-    if (destination?.winnerTo) {
-        updateNextMatch(destination.winnerTo.match, destination.winnerTo.pos, winnerCode);
-    }
-    if (destination?.loserTo) {
-        updateNextMatch(destination.loserTo.match, destination.loserTo.pos, loserCode);
-    }
-}
 
 function updateNextMatch(nextMatchId, position, teamCode) {
     const nextMatchEl = document.querySelector(`[data-match-id="${nextMatchId}"]`);
@@ -506,62 +555,224 @@ function sortTeamsInGroup(stats) {
     });
 }
 
-function getQualifiedTeams() {
-    const qualified = { first: {}, second: {} };
+function getQualifiedTeams({ finishedGroups } = {}) {
+    const qualified = { first: {}, second: {}, thirdByGroup: {}, finishedGroups: finishedGroups ?? new Set() };
     const thirdPlaceData = [];
+
     groupsData.forEach(group => {
-        const stats = getGroupStats(document.getElementById(`group-${group.id}`));
+        const groupCard = document.getElementById(`group-${group.id}`);
+        const stats = getGroupStats(groupCard);
         const sortedCodes = sortTeamsInGroup(stats);
-        if (sortedCodes.length === 4 && stats[sortedCodes[0]].PJ === 3) {
+
+        const groupFinished = sortedCodes.length === 4 && stats[sortedCodes[0]].PJ === 3;
+        if (groupFinished) {
             qualified.first[group.id] = sortedCodes[0];
             qualified.second[group.id] = sortedCodes[1];
-            thirdPlaceData.push({ code: sortedCodes[2], ...stats[sortedCodes[2]] });
+            qualified.thirdByGroup[group.id] = sortedCodes[2];
+            thirdPlaceData.push({ code: sortedCodes[2], group: group.id, ...stats[sortedCodes[2]] });
         }
     });
+
+    // Ranking de terceros (provisional si no han terminado todos los grupos)
     thirdPlaceData.sort((a, b) => {
         if (b.Pts !== a.Pts) return b.Pts - a.Pts;
         const diffB = b.GF - b.GC, diffA = a.GF - a.GC;
         if (diffB !== diffA) return diffB - diffA;
         return b.GF - a.GF;
     });
+
     qualified.thirds = thirdPlaceData.slice(0, 8).map(t => t.code);
+    qualified.thirdGroups = thirdPlaceData.slice(0, 8).map(t => t.group);
     qualified.thirdPlaceData = thirdPlaceData;
+
+    // true cuando ya tenemos 12 terceros (terminaron los 12 grupos)
+    qualified.allGroupsFinished = thirdPlaceData.length === 12;
+
     return qualified;
 }
 
-function populateBracket(qualified) {
+
+function populateBracketFIFA(qualified) {
+    // Siempre limpiamos todo el bracket (para que recalcular no deje basura)
     clearBracket();
-    const r32matches = [
-        { id: '16-1', home: qualified.first['A'], away: qualified.second['B'] }, { id: '16-2', home: qualified.first['C'], away: qualified.second['D'] },
-        { id: '16-3', home: qualified.first['E'], away: qualified.second['F'] }, { id: '16-4', home: qualified.first['G'], away: qualified.second['H'] },
-        { id: '16-5', home: qualified.thirds[0], away: qualified.thirds[1] }, { id: '16-6', home: qualified.thirds[2], away: qualified.thirds[3] },
-        { id: '16-7', home: qualified.first['I'], away: qualified.second['J'] }, { id: '16-8', home: qualified.first['K'], away: qualified.second['L'] },
-        { id: '16-9', home: qualified.first['B'], away: qualified.second['A'] }, { id: '16-10', home: qualified.first['D'], away: qualified.second['C'] },
-        { id: '16-11', home: qualified.first['F'], away: qualified.second['E'] }, { id: '16-12', home: qualified.first['H'], away: qualified.second['G'] },
-        { id: '16-13', home: qualified.thirds[4], away: qualified.thirds[5] }, { id: '16-14', home: qualified.thirds[6], away: qualified.thirds[7] },
-        { id: '16-15', home: qualified.first['J'], away: qualified.second['I'] }, { id: '16-16', home: qualified.first['L'], away: qualified.second['K'] }
-    ];
-    r32matches.forEach(m => {
-        if (m.home && m.away) updateNextMatch(m.id, 'home', m.home);
-        if (m.home && m.away) updateNextMatch(m.id, 'away', m.away);
-    });
+
+    // --------------------------------------------------
+    // 1) Sembrado oficial Round of 32 (Art. 12.6)
+    // --------------------------------------------------
+
+    // Helper: set a real team
+    const setTeam = (matchId, pos, code) => {
+        if (!code) return;
+        updateNextMatch(matchId, pos, code);
+    };
+
+    // Helper: set a placeholder "Mejor 3º ..." (si aún no se puede resolver)
+    const setThirdPlaceholder = (matchId, pos, label) => {
+        const pseudoCode = `TBD_${label}`;
+        if (!TEAMS_DATA[pseudoCode]) {
+            TEAMS_DATA[pseudoCode] = { name: `Mejor 3º (${label})`, flag: '⏳' };
+        }
+        updateNextMatch(matchId, pos, pseudoCode);
+    };
+
+    // --- Matches fijos (runner-up / winner)
+    // (16-1)  M73: 2A vs 2B
+    setTeam('16-1', 'home', qualified.second['A']);
+    setTeam('16-1', 'away', qualified.second['B']);
+
+    // (16-3)  M75: 1F vs 2C
+    setTeam('16-3', 'home', qualified.first['F']);
+    setTeam('16-3', 'away', qualified.second['C']);
+
+    // (16-4)  M76: 1C vs 2F
+    setTeam('16-4', 'home', qualified.first['C']);
+    setTeam('16-4', 'away', qualified.second['F']);
+
+    // (16-6)  M78: 2E vs 2I
+    setTeam('16-6', 'home', qualified.second['E']);
+    setTeam('16-6', 'away', qualified.second['I']);
+
+    // (16-11) M83: 2K vs 2L
+    setTeam('16-11', 'home', qualified.second['K']);
+    setTeam('16-11', 'away', qualified.second['L']);
+
+    // (16-12) M84: 1H vs 2J
+    setTeam('16-12', 'home', qualified.first['H']);
+    setTeam('16-12', 'away', qualified.second['J']);
+
+    // (16-14) M86: 1J vs 2H
+    setTeam('16-14', 'home', qualified.first['J']);
+    setTeam('16-14', 'away', qualified.second['H']);
+
+    // (16-16) M88: 2D vs 2G
+    setTeam('16-16', 'home', qualified.second['D']);
+    setTeam('16-16', 'away', qualified.second['G']);
+
+    // --- Matches que dependen de los 8 mejores terceros (Art. 12.6 + Annexe C)
+    // Si todavía no se puede resolver (porque faltan grupos o no está la tabla de Annexe C), mostramos placeholder.
+
+    // (16-2)  M74: 1E vs (mejor 3º de ABCDF)
+    setTeam('16-2', 'home', qualified.first['E']);
+    setThirdPlaceholder('16-2', 'away', 'ABCDF');
+
+    // (16-5)  M77: 1I vs (mejor 3º de CDFGH)
+    setTeam('16-5', 'home', qualified.first['I']);
+    setThirdPlaceholder('16-5', 'away', 'CDFGH');
+
+    // (16-7)  M79: 1A vs (mejor 3º de CEFHI)
+    setTeam('16-7', 'home', qualified.first['A']);
+    setThirdPlaceholder('16-7', 'away', 'CEFHI');
+
+    // (16-8)  M80: 1L vs (mejor 3º de EHIJK)
+    setTeam('16-8', 'home', qualified.first['L']);
+    setThirdPlaceholder('16-8', 'away', 'EHIJK');
+
+    // (16-9)  M81: 1D vs (mejor 3º de BEFIJ)
+    setTeam('16-9', 'home', qualified.first['D']);
+    setThirdPlaceholder('16-9', 'away', 'BEFIJ');
+
+    // (16-10) M82: 1G vs (mejor 3º de AEHIJ)
+    setTeam('16-10', 'home', qualified.first['G']);
+    setThirdPlaceholder('16-10', 'away', 'AEHIJ');
+
+    // (16-13) M85: 1B vs (mejor 3º de EFGIJ)
+    setTeam('16-13', 'home', qualified.first['B']);
+    setThirdPlaceholder('16-13', 'away', 'EFGIJ');
+
+    // (16-15) M87: 1K vs (mejor 3º de DEIJL)
+    setTeam('16-15', 'home', qualified.first['K']);
+    setThirdPlaceholder('16-15', 'away', 'DEIJL');
+
+    // --------------------------------------------------
+    // 2) Intentar resolver placeholders usando Annexe C
+    // --------------------------------------------------
+    // Si tienes el mapeo completo (495 combinaciones), aquí es donde se asignan los terceros reales.
+    // Ver función resolveThirdOpponentsFromAnnexC().
+    resolveThirdOpponentsFromAnnexC(qualified);
 }
 
-function clearBracket() {
-    document.querySelectorAll('.bracket-container-topdown .team-pill').forEach(pill => {
-        if (!pill.classList.contains('placeholder')) {
-            pill.classList.add('placeholder');
-            // ¡CAMBIO! Limpiamos el contenido y eliminamos el data-team-code
-            pill.innerHTML = '';
-            delete pill.dataset.teamCode;
-        }
-        // Nos aseguramos de que no queden inputs de score residuales
-        const scoreInput = pill.querySelector('.score');
-        if (scoreInput) {
-            scoreInput.remove();
-        }
-    });
+// --- Tabla Annexe C (FIFA) ---
+// IMPORTANTE:
+//  - Annexe C tiene 495 combinaciones. Cada combinación depende de QUÉ 8 grupos aportan un 3er lugar que clasifica.
+//  - Si quieres que el sistema sea 100% oficial, necesitas cargar ese mapeo aquí.
+//  - Estructura esperada: clave = string con 8 letras ordenadas (ej: 'CEFGHIJK')
+//    valor = { A:'E', B:'J', D:'I', E:'F', G:'H', I:'G', K:'L', L:'K' }  // indica qué grupo (3E, 3J...) enfrenta a 1A, 1B, 1D, 1E, 1G, 1I, 1K, 1L
+const ANNEX_C_MAP = {
+    // EJEMPLO (NO COMPLETO): cuando los terceros clasificados vienen de E,F,G,H,I,J,K,L
+    // key: 'EFGHIJKL'
+    // (Ejemplo tomado del reglamento, Option 1)
+    'EFGHIJKL': { A: 'E', B: 'J', D: 'I', E: 'F', G: 'H', I: 'G', K: 'L', L: 'K' }
+};
+
+function resolveThirdOpponentsFromAnnexC(qualified) {
+    // Solo cuando terminó la fase de grupos completa.
+    if (!qualified.allGroupsFinished) return;
+
+    // Necesitamos que ya existan los 8 grupos que aportan tercero clasificado.
+    const thirdGroups = (qualified.thirdGroups || []).slice().sort().join('');
+    if (thirdGroups.length !== 8) return;
+
+    const mapping = ANNEX_C_MAP[thirdGroups];
+    if (!mapping) {
+        // No hay mapping cargado: nos quedamos con placeholders.
+        console.warn('[Annexe C] Falta el mapping para la combinación:', thirdGroups);
+        return;
+    }
+
+    // Para cada ganador de grupo que enfrenta a un tercero, reemplazamos el placeholder por el tercero real.
+    const thirdTeam = (groupLetter) => qualified.thirdByGroup[groupLetter];
+
+    // 1A vs 3?
+    if (mapping.A) updateNextMatch('16-7', 'away', thirdTeam(mapping.A));
+    // 1B vs 3?
+    if (mapping.B) updateNextMatch('16-13', 'away', thirdTeam(mapping.B));
+    // 1D vs 3?
+    if (mapping.D) updateNextMatch('16-9', 'away', thirdTeam(mapping.D));
+    // 1E vs 3?
+    if (mapping.E) updateNextMatch('16-2', 'away', thirdTeam(mapping.E));
+    // 1G vs 3?
+    if (mapping.G) updateNextMatch('16-10', 'away', thirdTeam(mapping.G));
+    // 1I vs 3?
+    if (mapping.I) updateNextMatch('16-5', 'away', thirdTeam(mapping.I));
+    // 1K vs 3?
+    if (mapping.K) updateNextMatch('16-15', 'away', thirdTeam(mapping.K));
+    // 1L vs 3?
+    if (mapping.L) updateNextMatch('16-8', 'away', thirdTeam(mapping.L));
 }
+
+// --- Compat: mantenemos el nombre antiguo por si lo llamaba alguna parte ---
+function populateBracket(qualified) {
+    return populateBracketFIFA(qualified);
+}
+
+
+function clearBracket() {
+    document.querySelectorAll('.bracket-container-topdown .match-container').forEach(match => {
+        // Limpiar estados visuales
+        match.querySelectorAll('.team-pill').forEach(pill => {
+            pill.classList.remove('loser');
+            if (!pill.classList.contains('placeholder')) {
+                pill.classList.add('placeholder');
+                pill.innerHTML = '';
+                delete pill.dataset.teamCode;
+            } else {
+                pill.innerHTML = '';
+                delete pill.dataset.teamCode;
+            }
+            const scoreInput = pill.querySelector('.score');
+            if (scoreInput) scoreInput.remove();
+        });
+    });
+
+    // Limpiar campeón
+    const champ = document.querySelector('[data-match-id="champion"]');
+    if (champ) {
+        champ.classList.add('placeholder');
+        champ.innerHTML = '';
+        delete champ.dataset.teamCode;
+    }
+}
+
 
 function validateMatchInputs(matchRow) {
     const [input1, input2] = matchRow.querySelectorAll('.score-input');
@@ -700,7 +911,7 @@ function getAllMatchesData() {
         }
     });
     // Recopilar partidos de fase eliminatoria
-    document.querySelectorAll('.bracket-container-vertical .match-container').forEach(matchEl => {
+    document.querySelectorAll('.bracket-container-topdown .match-container').forEach(matchEl => {
         const [score1Input, score2Input] = matchEl.querySelectorAll('.score');
         const homePill = matchEl.querySelector('[data-team-pos="home"]');
         const awayPill = matchEl.querySelector('[data-team-pos="away"]');
