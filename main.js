@@ -118,6 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Generamos el HTML base
     generateGroupsHTML();
+    hideSplash(6000);
     generateBracketHTML();
     initializeEventListeners();
 
@@ -976,4 +977,18 @@ function updateGlobalStats() {
             <td class="stat-value">${match.score1 + match.score2}</td>
         </tr>
     `).join('');
+}
+
+function hideSplash(durationMs = 6000){
+  const splash = document.getElementById('splash');
+  if(!splash) return;
+
+  // Asegura que se pinte el splash primero
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      splash.classList.add('is-hidden');
+      // Remover del DOM después del fade (0.35s aprox + margen)
+      setTimeout(() => splash.remove(), 800);
+    }, durationMs);
+  });
 }
