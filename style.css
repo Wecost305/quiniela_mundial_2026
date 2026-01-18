@@ -800,12 +800,35 @@ a{ color: inherit; text-decoration: none; }
 /* =====================
    Responsive
    ===================== */
-@media (max-width: 1024px){
-  .main-title{ font-size: 2.8em; }
-  .section-title{ font-size: 2.4em; }
-  .groups-grid{ grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
-  .hero{ grid-template-columns: 1fr; }
-  .hero-badges{ align-items: flex-start; }
+@media (max-width: 1024px) {
+  .groups-grid{
+    display: flex;
+    gap: 18px;
+
+    overflow-x: auto;
+    overflow-y: visible;
+
+    padding: 6px 4px 14px;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* cada card es una “slide” */
+  .group-card{
+    flex: 0 0 360px;
+    scroll-snap-align: start;
+  }
+
+  /* opcional: scrollbar discreto */
+  .groups-grid::-webkit-scrollbar{ height: 8px; }
+  .groups-grid::-webkit-scrollbar-thumb{
+    background: rgba(0,0,0,0.15);
+    border-radius: 999px;
+  }
+
+  .main-title { font-size: 2.8em; }
+  .section-title { font-size: 2.4em; }
 }
 
 @media (max-width: 768px){
@@ -822,7 +845,19 @@ a{ color: inherit; text-decoration: none; }
   .user-info{ justify-self: center; order: -1; }
   .main-title{ font-size: 2.5em; }
 
-  .groups-grid{ grid-template-columns: 1fr; gap: 18px; }
+  .groups-grid{
+    display: flex;
+    gap: 14px;
+    overflow-x: auto;
+    padding: 6px 2px 14px;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+  }
+  .group-card{
+    flex: 0 0 88vw;   /* se adapta a la pantalla */
+    max-width: 420px; /* evita gigantes en tablets pequeñas */
+    scroll-snap-align: start;
+  }
 
   .match-grid{
     grid-template-columns: 1fr 45px 15px 45px 1fr;
